@@ -1,0 +1,57 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: C:\Files\FAST api\template\v1
+configfile: pyproject.toml
+plugins: anyio-4.12.1, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collected 1 item
+
+tests\test_auth.py E                                                     [100%]
+
+=================================== ERRORS ====================================
+____________________ ERROR at setup of test_register_flow _____________________
+
+self = <Coroutine test_register_flow>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Matrix\AppData\Roaming\uv\python\cpython-3.11.14-windows-x86_64-none\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Matrix\AppData\Roaming\uv\python\cpython-3.11.14-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    @pytest.fixture
+    async def client() -> AsyncGenerator:
+>       async with AsyncClient(app=app, base_url="http://test") as c:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'
+
+tests\conftest.py:19: TypeError
+============================== warnings summary ===============================
+app\schemas\user.py:20
+  C:\Files\FAST api\template\v1\app\schemas\user.py:20: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class UserResponse(UserBase):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/test_auth.py::test_register_flow - TypeError: AsyncClient.__init_...
+========================= 1 warning, 1 error in 0.24s =========================

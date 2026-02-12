@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="2" time="0.279" timestamp="2026-02-12T23:21:09.321547+05:30" hostname="DESKTOP-F7LGSD7"><testcase classname="tests.test_auth" name="test_register_flow" time="0.006"><error message="failed on setup with &quot;TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'&quot;">event_loop = &lt;ProactorEventLoop running=False closed=False debug=False&gt;
+request = &lt;SubRequest 'client' for &lt;Function test_register_flow&gt;&gt;, kwargs = {}
+unittest = False, func = &lt;function client at 0x000002057FD69120&gt;
+setup = &lt;function _wrap_asyncgen_fixture.&lt;locals&gt;._asyncgen_fixture_wrapper.&lt;locals&gt;.setup at 0x0000020503079C60&gt;
+finalizer = &lt;function _wrap_asyncgen_fixture.&lt;locals&gt;._asyncgen_fixture_wrapper.&lt;locals&gt;.finalizer at 0x0000020503079BC0&gt;
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(
+        event_loop: asyncio.AbstractEventLoop, request: SubRequest, **kwargs: Any
+    ):
+        unittest = False if pytest.version_tuple &gt;= (8, 2) else fixturedef.unittest
+        func = _perhaps_rebind_fixture_func(fixture, request.instance, unittest)
+        gen_obj = func(**_add_kwargs(func, kwargs, event_loop, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()
+            return res
+    
+        def finalizer() -&gt; None:
+            """Yield again, to finalize."""
+    
+            async def async_finalizer() -&gt; None:
+                try:
+                    await gen_obj.__anext__()
+                except StopAsyncIteration:
+                    pass
+                else:
+                    msg = "Async generator fixture didn't stop."
+                    msg += "Yield only once."
+                    raise ValueError(msg)
+    
+            event_loop.run_until_complete(async_finalizer())
+    
+&gt;       result = event_loop.run_until_complete(setup())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:302: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\Matrix\AppData\Roaming\uv\python\cpython-3.11.14-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:284: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    @pytest.fixture
+    async def client() -&gt; AsyncGenerator:
+&gt;       async with AsyncClient(app=app, base_url="http://test") as c:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'
+
+tests\conftest.py:15: TypeError</error></testcase><testcase classname="tests.test_auth" name="test_reset_password_flow" time="0.002"><error message="failed on setup with &quot;TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'&quot;">event_loop = &lt;ProactorEventLoop running=False closed=False debug=False&gt;
+request = &lt;SubRequest 'client' for &lt;Function test_reset_password_flow&gt;&gt;
+kwargs = {}, unittest = False, func = &lt;function client at 0x000002057FD69120&gt;
+setup = &lt;function _wrap_asyncgen_fixture.&lt;locals&gt;._asyncgen_fixture_wrapper.&lt;locals&gt;.setup at 0x00000205030798A0&gt;
+finalizer = &lt;function _wrap_asyncgen_fixture.&lt;locals&gt;._asyncgen_fixture_wrapper.&lt;locals&gt;.finalizer at 0x0000020503079DA0&gt;
+
+    @functools.wraps(fixture)
+    def _asyncgen_fixture_wrapper(
+        event_loop: asyncio.AbstractEventLoop, request: SubRequest, **kwargs: Any
+    ):
+        unittest = False if pytest.version_tuple &gt;= (8, 2) else fixturedef.unittest
+        func = _perhaps_rebind_fixture_func(fixture, request.instance, unittest)
+        gen_obj = func(**_add_kwargs(func, kwargs, event_loop, request))
+    
+        async def setup():
+            res = await gen_obj.__anext__()
+            return res
+    
+        def finalizer() -&gt; None:
+            """Yield again, to finalize."""
+    
+            async def async_finalizer() -&gt; None:
+                try:
+                    await gen_obj.__anext__()
+                except StopAsyncIteration:
+                    pass
+                else:
+                    msg = "Async generator fixture didn't stop."
+                    msg += "Yield only once."
+                    raise ValueError(msg)
+    
+            event_loop.run_until_complete(async_finalizer())
+    
+&gt;       result = event_loop.run_until_complete(setup())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:302: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\Matrix\AppData\Roaming\uv\python\cpython-3.11.14-windows-x86_64-none\Lib\asyncio\base_events.py:654: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:284: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    @pytest.fixture
+    async def client() -&gt; AsyncGenerator:
+&gt;       async with AsyncClient(app=app, base_url="http://test") as c:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'
+
+tests\conftest.py:15: TypeError</error></testcase></testsuite></testsuites>
