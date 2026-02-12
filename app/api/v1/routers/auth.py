@@ -58,3 +58,19 @@ async def reset_password(
 ) -> Any:
     await auth_service.reset_password(reset_in.email, reset_in.otp, reset_in.new_password)
     return {"message": "Password reset successfully"}
+
+@router.get("/google/login")
+async def google_login():
+    from app.core.config import settings
+    from fastapi.responses import RedirectResponse
+    
+    return RedirectResponse(
+        f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={settings.GOOGLE_CLIENT_ID}&redirect_uri={settings.GOOGLE_REDIRECT_URI}&scope=openid%20email%20profile&access_type=offline"
+    )
+
+@router.get("/google/callback", response_model=Token)
+async def google_callback(
+    code: str,
+    auth_service: AuthService = Depends(deps.get_auth_service)
+) -> Any:
+    return await auth_service.google_login(code)

@@ -9,8 +9,13 @@ class UserRepo:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def create_user(self, user: UserCreate, hashed_password: str) -> User:
-        db_user = User(email=user.email, hashed_password=hashed_password)
+    async def create_user(self, user: UserCreate, hashed_password: str = None, provider: str = "email", is_verified: bool = False) -> User:
+        db_user = User(
+            email=user.email, 
+            hashed_password=hashed_password, 
+            provider=provider,
+            is_verified=is_verified
+        )
         self.db.add(db_user)
         await self.db.commit()
         await self.db.refresh(db_user)
